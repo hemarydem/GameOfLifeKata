@@ -7,16 +7,24 @@ public class Grid {
     private int sizeGrid;
     private Random rd;
     public String display = "";
+    public Cell[][] tempsCells;
 
     public Grid(int sizeGrid) {
         this.rd = new Random();
         this.sizeGrid = sizeGrid;
         generateRandomInitialState();
     }
-
+    //constructeur
     Grid(int sizeGrid, Cell[][] cells) {
         this.sizeGrid = sizeGrid;
         this.cells = cells;
+        Cell[][] c = new Cell[sizeGrid][sizeGrid];
+        for (int i = 0; i < sizeGrid; i++) {
+            for (int j = 0; j < sizeGrid; j++) {
+                c[i][j]=  new Cell(false);
+            }
+        }
+        this.tempsCells = c;// ajout
     }
 
     private void generateRandomInitialState() {
@@ -24,10 +32,6 @@ public class Grid {
     }
 
     public void generateNextState() {
-        //TODO le code commenté si dessous sert checker les cellules
-        // il est pas complètemnt focntionnel mais c'est lui qu'il faut débugger
-        // ne pas effacer
-
         int count = 0;
         for (int i = 0; i < this.cells.length; i++) {
             for (int j = 0; j < this.cells.length; j++) {
@@ -53,13 +57,14 @@ public class Grid {
                 }
                 //System.out.println("count = " + count + "\n de la cell[" + i + "][" + j + "]\n");
                 if (this.cells[i][j].processState(this.cells[i][j].isAlive(), count)) {
-                    this.cells[i][j].setIsAlive(true);
+                    this.tempsCells[i][j].setIsAlive(true);//
                 } else {
-                    this.cells[i][j].setIsAlive(false);
+                    this.tempsCells[i][j].setIsAlive(false);//
                 }
                 count = 0;
             }
         }
+        this.cells = this.tempsCells;
         for (int i = 0; i < this.cells.length; i++)
             for (int j = 0; j < this.cells.length; j++) {
                 display = display + this.cells[i][j].toString();
