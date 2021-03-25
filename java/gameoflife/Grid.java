@@ -28,7 +28,15 @@ public class Grid {
     }
 
     private void generateRandomInitialState() {
-        // TODO
+        for (int i = 0; i < this.sizeGrid; i++) {
+            for (int j = 0; j < this.sizeGrid; j++) {
+                if(this.rd.nextInt() % 4 == 0 ) {
+                    this.cells[i][j] =  new Cell(false);
+                } else {
+                    this.cells[i][j] =  new Cell(true);
+                }
+            }
+        }
     }
 
     public void generateNextState() {
