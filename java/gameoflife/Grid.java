@@ -10,8 +10,17 @@ public class Grid {
     public Cell[][] tempsCells;
 
     public Grid(int sizeGrid) {
+        Cell[][] x = new Cell[sizeGrid][sizeGrid];
+        Cell[][] y = new Cell[sizeGrid][sizeGrid];
         this.rd = new Random();
         this.sizeGrid = sizeGrid;
+        this.cells = y;
+        for (int i = 0; i < sizeGrid; i++) {
+            for (int j = 0; j < sizeGrid; j++) {
+                x[i][j]=  new Cell(false);
+            }
+        }
+        this.tempsCells = x;
         generateRandomInitialState();
     }
     //constructeur
@@ -43,20 +52,20 @@ public class Grid {
         int count = 0;
         for (int i = 0; i < this.cells.length; i++) {
             for (int j = 0; j < this.cells.length; j++) {
-                System.out.println("------------Pour cell[" + i + "][" + j + "]------------\n");
+                //System.out.println("------------Pour cell[" + i + "][" + j + "]------------\n");
                 for (int k = i - 1; k <= i + 1; k++) {
                     for (int l = j - 1; l <= j + 1; l++) {
-                        System.out.println("Est analyser cell[" + k + "][" + l + "]\n");
+                        //System.out.println("Est analyser cell[" + k + "][" + l + "]\n");
                         if (k == i && l == j) {
-                            System.out.println("jump cell himself\n");
+                            //System.out.println("jump cell himself\n");
                             continue;
                         }
                         if (k < 0 || l < 0) {
-                            System.out.println("jumper 1\n");
+                            //System.out.println("jumper 1\n");
                             continue;
                         }
                         if (k >= this.cells.length || l >= this.cells.length) {
-                            System.out.println("jumper 2\n");
+                            //System.out.println("jumper 2\n");
                             continue;
                         }
                         if (this.cells[k][l].isAlive())
