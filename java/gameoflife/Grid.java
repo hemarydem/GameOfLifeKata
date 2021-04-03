@@ -3,11 +3,11 @@ package gameoflife;
 import java.util.Random;
 
 public class Grid {
-    private Cell[][] cells;
-    private int sizeGrid;
+    private Cell[][] cells;                 // cells array
+    private int sizeGrid;                   //size of cells array
     private Random rd;
-    public String display = "";
-    public Cell[][] tempsCells;
+    public String display = "";             // string representation cells array
+    public Cell[][] tempsCells;             // temporary cells array for next state
 
     public Grid(int sizeGrid) {
         Cell[][] x = new Cell[sizeGrid][sizeGrid];
@@ -15,7 +15,7 @@ public class Grid {
         this.rd = new Random();
         this.sizeGrid = sizeGrid;
         this.cells = y;
-        for (int i = 0; i < sizeGrid; i++) {
+        for (int i = 0; i < sizeGrid; i++) {        //loop to init in cells the cells array
             for (int j = 0; j < sizeGrid; j++) {
                 x[i][j]=  new Cell(false);
             }
@@ -23,21 +23,21 @@ public class Grid {
         this.tempsCells = x;
         generateRandomInitialState();
     }
-    //constructeur
+
     Grid(int sizeGrid, Cell[][] cells) {
         this.sizeGrid = sizeGrid;
         this.cells = cells;
         Cell[][] c = new Cell[sizeGrid][sizeGrid];
-        for (int i = 0; i < sizeGrid; i++) {
+        for (int i = 0; i < sizeGrid; i++) {        //like line 10
             for (int j = 0; j < sizeGrid; j++) {
                 c[i][j]=  new Cell(false);
             }
         }
-        this.tempsCells = c;// ajout
+        this.tempsCells = c;
     }
 
     private void generateRandomInitialState() {
-        for (int i = 0; i < this.sizeGrid; i++) {
+        for (int i = 0; i < this.sizeGrid; i++) {                   //generate a random array
             for (int j = 0; j < this.sizeGrid; j++) {
                 if(this.rd.nextInt() % 4 == 0 ) {
                     this.cells[i][j] =  new Cell(false);
@@ -52,37 +52,31 @@ public class Grid {
         int count = 0;
         for (int i = 0; i < this.cells.length; i++) {
             for (int j = 0; j < this.cells.length; j++) {
-                //System.out.println("------------Pour cell[" + i + "][" + j + "]------------\n");
                 for (int k = i - 1; k <= i + 1; k++) {
                     for (int l = j - 1; l <= j + 1; l++) {
-                        //System.out.println("Est analyser cell[" + k + "][" + l + "]\n");
-                        if (k == i && l == j) {
-                            //System.out.println("jump cell himself\n");
+                        if (k == i && l == j) {                         //check if we are not checking the cell herself
                             continue;
                         }
-                        if (k < 0 || l < 0) {
-                            //System.out.println("jumper 1\n");
+                        if (k < 0 || l < 0) {                            //check if we are out of bound
                             continue;
                         }
-                        if (k >= this.cells.length || l >= this.cells.length) {
-                            //System.out.println("jumper 2\n");
+                        if (k >= this.cells.length || l >= this.cells.length) { //check if we are out of bound
                             continue;
                         }
-                        if (this.cells[k][l].isAlive())
+                        if (this.cells[k][l].isAlive())                     // counting alive cells
                             count++;
                     }
                 }
-                //System.out.println("count = " + count + "\n de la cell[" + i + "][" + j + "]\n");
                 if (this.cells[i][j].processState(this.cells[i][j].isAlive(), count)) {
-                    this.tempsCells[i][j].setIsAlive(true);//
+                    this.tempsCells[i][j].setIsAlive(true);                             //sst the array for the next state
                 } else {
-                    this.tempsCells[i][j].setIsAlive(false);//
+                    this.tempsCells[i][j].setIsAlive(false);
                 }
                 count = 0;
             }
         }
         this.cells = this.tempsCells;
-        for (int i = 0; i < this.cells.length; i++)
+        for (int i = 0; i < this.cells.length; i++)                         // double loop is building the string to print
             for (int j = 0; j < this.cells.length; j++) {
                 display = display + this.cells[i][j].toString();
                 if(j < this.cells.length - 1)
