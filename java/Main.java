@@ -9,6 +9,7 @@ public class Main {
             System.out.flush();
             g.generateNextState();
             System.out.println(g.toString());
+            System.out.println("\n");
         }
     }
 }
